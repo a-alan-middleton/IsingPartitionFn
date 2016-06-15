@@ -1,0 +1,84 @@
+isingZ computes the partition function of a two-dimensional Ising model
+
+In this README file:
+(1) Notes on authors and copyright.
+(2) Short directions for compilation and verification of compile.
+(3) Brief description of input format and usage.
+(4) Notes on the misc/ directory.
+
+----(1)
+// COPYRIGHT NOTICE
+// This file is part of isingZ, a program to compute partition
+//     functions and free energies for domain walls in 2D Ising models
+//     for general bond weights and periodic boundary conditions.
+// Copyright 2012 by Creighton K. Thomas (creightonthomas@gmail.com),
+//                   A. Alan Middleton (aam@syr.edu)
+// The development of this software was supported in part by the National Science
+// Foundation under grant DMR-1006731.
+//
+// The program isingZ is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// 
+// See http://www.gnu.org/licenses/gpl.txt for more details.
+// 
+
+----(2)
+If you have all the libraries available, which might well be the case, simply
+  enter 'make'. This will compile codes and place them in the bin directory.
+  It will also run a short test. If the test succeeds, there will be no messages.
+  If the test fails, don't worry, yet: the check is for the full precision of the
+  result and it is conceivable that different versions of gmp will give very slight
+  differences in the last few digits of the long decimal outputs.
+
+Necessary libraries for ising Z include gmp, gmpxx (GNU multiprecision library)..
+The disorder realization generator needs gsl (GNU scientific library).
+  You can modify the Makefile in src/Z/ and src/generator/ if you need to
+  clarify where those libraries sit. (For example, on one of
+  the authors' computers, where gmp and gsl are installed in bizarre places,
+  the additions to the makefile include:
+    INC		= -I/sw/include/gsl -I/sw/include/
+    LIBS	= -lgmpxx.4 -lgmp.3 -L/usr/local/lib -L/sw/lib/x86_64/ -lgsl
+  )
+
+----(3)
+Conventions for input format for Ising samples:
+ See sample files in src/test/ for examples of input files.
+ These files include system size and a list of bond weights, two
+   bond weights per spin. The weights are indexed by spin coordinates
+   and bond directions.
+ Diagram of spin layout =
+
+ (   0,   0) (   1,   0) (   2,   0) ... (Lx-1,   0)
+ (   0,   1) (   1,   1) (   2,   1) ... (Lx-1,   1)
+ (   0,   2) (   1,   2) (   2,   2) ... (Lx-1,   2)
+      .           .           .               .
+      .           .           .               .
+      .           .           .               .
+ (   0,Ly-1) (   1,Ly-1) (   2,Ly-1) ... (Lx-1,Ly-1)
+
+
+ For this spin layout, directions =
+
+      N(0)
+  
+  W(3)    E(1)
+  
+      S(2)
+
+----(4)
+misc/ has some simple examples for timing (takes an hour or so to run), how to test
+the exp() and log() functions, and how to compute domain wall energies for a number
+of samples (takes less than a minute to run).
+Also see extraTest.sh to see density of states for lowest energies in 32x32 FM Ising model.
+
